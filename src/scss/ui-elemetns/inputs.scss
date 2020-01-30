@@ -16,4 +16,17 @@ label {
     display: inline-block;
     width: 50%;
   }
+
+  &-error {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    display: block;
+    padding: 10px;
+    background: #ff5050;
+    color: #ffffff;
+    font-size: 14px;
+    font-style: italic;
+  }
 }

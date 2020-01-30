@@ -1,20 +1,68 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {useForm} from 'react-hook-form'
 
 function StepOne() {
+    const {register, handleSubmit, errors} = useForm();
+    const onSubmit = data => {
+        console.log(data)
+    };
+
     return (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row step-form-row">
-                <label htmlFor="">Please insert the Numbers of Commands</label>
-                <input className="input" type="text" placeholder="please insert the "/>
+                <label>please inter number of Commands Here</label>
+                <input name="NumbersOfCommands"
+                       className="input"
+                       ref={register({
+                           required: true,
+                           maxLength: 20, pattern: {
+                               value: /^[1-9\b]+$/,
+                               message: "invalid commands number"
+                           }
+                       })}
+                       placeholder="number of commads"
+                />
+                {errors.NumbersOfCommands &&
+                <p className="input-error">
+                    {errors.NumbersOfCommands.message}
+                </p>
+                }
             </div>
             <div className="row step-form-row">
                 <label htmlFor="">Please inter the Starting Point</label>
-                <input className="input input-half" type="text" placeholder="X"/>
-                <input className="input input-half" type="text" placeholder="Y"/>
+                <input name="startInX"
+                       className="input input-half"
+                       ref={register({
+                           required: true,
+                           maxLength: 20, pattern: {
+                               value: /^[\d ()+-]+$/,
+                               message: "invalid Start Point"
+                           }
+                       })}
+                       placeholder="Start Point X"
+                />
+
+                {errors.startInX &&
+                <p className="input-error">{errors.startInX.message}</p>}
+
+                <input name="startInY"
+                       className="input input-half"
+                       ref={register({
+                           required: true,
+                           maxLength: 20, pattern: {
+                               value: /^[\d ()+-]+$/,
+                               message: "invalid Start Point"
+                           }
+                       })}
+                       placeholder="Start Point Y"
+                />
+
+                {errors.startInY &&
+                <p className="input-error">{errors.startInY.message}</p>}
+
             </div>
-            <Link to="/step-two" className="btn btn-blue">Next</Link>
-        </>
+            <input type="submit"/>
+        </form>
     );
 }
 
