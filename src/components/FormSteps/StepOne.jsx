@@ -1,10 +1,16 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom'
 import {useForm} from 'react-hook-form'
 
-function StepOne() {
+function StepOne(props) {
+    console.log(props);
+
+    const {getData} = props;
+
     const {register, handleSubmit, errors} = useForm();
     const onSubmit = data => {
-        console.log(data)
+        getData(data);
+        props.history.push('/step-two');
     };
 
     return (
@@ -66,4 +72,4 @@ function StepOne() {
     );
 }
 
-export default StepOne;
+export default withRouter(StepOne);
