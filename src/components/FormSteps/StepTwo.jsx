@@ -1,28 +1,28 @@
 import React, {useRef, useState} from 'react';
+import {withRouter} from 'react-router-dom'
 
 function StepTwo(props) {
 
-    let commandsDirections = {x: '', y: ''};
-
+    const {getData} = props;
     const inputX = useRef(null);
     const inputY = useRef(null);
 
     const [StarX, setStarX] = useState("");
     const [StarY, setStarY] = useState("");
 
-    const regTest = /^[0-9]*$/; // test for your Inputs
-
     const handelXChange = (val) => {
         setStarX(val);
     };
 
-
     const handelYChange = (val) => {
         setStarY(val);
     };
-    const handelSubmit = data => {
+    const handelSubmit = event => {
+        event.preventDefault();
+        getData({StarX, StarY});
+        props.history.push('/step-three');
     };
-    console.log(StarX);
+
     return (
         <form onSubmit={handelSubmit}>
             <div className="row step-form-row">
@@ -62,4 +62,4 @@ function StepTwo(props) {
     );
 }
 
-export default StepTwo;
+export default withRouter(StepTwo);
