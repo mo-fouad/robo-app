@@ -17,6 +17,12 @@ label {
     width: 50%;
   }
 
+  &[type=number]::-webkit-inner-spin-button,
+  &[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   &-error {
     position: fixed;
     bottom: 10px;
@@ -28,5 +34,21 @@ label {
     color: #ffffff;
     font-size: 14px;
     font-style: italic;
+  }
+
+  &-input {
+    font-size: 10px;
+    margin: 10px 0;
+    font-style: italic;
+    color: #717171;
+  }
+  &-note{
+    font-size: 10px;
+    font-style: italic;
+    margin: 10px 0;
+  }
+
+  &-red {
+    border: 1px solid #ff5050;
   }
 }

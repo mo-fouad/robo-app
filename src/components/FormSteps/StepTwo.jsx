@@ -1,57 +1,61 @@
-import React from 'react';
-import {Link} from "react-router-dom";
-import {useForm} from 'react-hook-form'
+import React, {useRef, useState} from 'react';
 
 function StepTwo(props) {
-    const {NumOfCommands} = props;
 
-    let commandsDirections = [];
+    let commandsDirections = {x: '', y: ''};
 
-    for (let i = 0; i < NumOfCommands; i++) {
-        commandsDirections.push({direction: "", distance: ""})
-    }
+    const inputX = useRef(null);
+    const inputY = useRef(null);
 
+    const [StarX, setStarX] = useState("");
+    const [StarY, setStarY] = useState("");
 
-    const {register, handleSubmit, errors} = useForm();
-    const onSubmit = data => {
-        console.log(data)
+    const regTest = /^[0-9]*$/; // test for your Inputs
+
+    const handelXChange = (val) => {
+        setStarX(val);
     };
 
+
+    const handelYChange = (val) => {
+        setStarY(val);
+    };
+    const handelSubmit = data => {
+    };
+    console.log(StarX);
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handelSubmit}>
             <div className="row step-form-row">
-                <label htmlFor="">Please inter the commands that you need to the robot to go</label>
-                {
-                    commandsDirections.map((ele, index) =>
-                        <div  key={index}>
-                            <input name={ele.index}
-                                   className="input input-half"
-                                   ref={register({
-                                       required: true,
-                                       maxLength: 20, pattern: {
-                                           value: /^[E|W|N|S]+$/,
-                                           message: "invalid Direction command"
-                                       }
-                                   })}
-                                   placeholder="Direction"
-                            />
+                <label htmlFor="">
+                    Please inter the Start Pints for your Robot
+                </label>
 
-                            <input name="startInX"
-                                   className="input input-half"
-                                   ref={register({
-                                       required: true,
-                                       maxLength: 20, pattern: {
-                                           value: /^[\d ()+-]+$/,
-                                           message: "invalid Start Point"
-                                       }
-                                   })}
-                                   placeholder="Amount of Steps"
-                            />
-                        </div>
-                    )
-                }
+                <input type="number"
+                       required
+                       ref={inputX}
+                       min="-100000"
+                       max="100000"
+                       step="1"
+                       className="input input-half"
+                       onChange={event => handelXChange(event.target.value)}
+                       value={StarX}
+                />
 
+                <input type="text"
+                       required
+                       ref={inputY}
+                       min="-100000"
+                       max="100000"
+                       step="1"
+                       className="input input-half"
+                       onChange={(e) => handelYChange(e.target.value)}
+                       value={StarY}
+                />
 
+                <p className="input-note">
+                    PS: Only Numbers are allowed here, <br/>
+                    No Decimals, And not Greater than 100000 or less than -100000 :)
+                </p>
             </div>
             <input type="submit"/>
         </form>

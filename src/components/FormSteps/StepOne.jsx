@@ -1,73 +1,51 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom'
-import {useForm} from 'react-hook-form'
+import React, {useState, useRef} from 'react';
+import {withRouter} from 'react-router-dom'
 
 function StepOne(props) {
-    console.log(props);
 
     const {getData} = props;
 
-    const {register, handleSubmit, errors} = useForm();
-    const onSubmit = data => {
-        getData(data);
-        props.history.push('/step-two');
+    const [numOfCommands, setNumOfCommands] = useState(0);
+    const inputEl = useRef(null);
+
+    // Handel Number of Commands Change
+    const handelCommandsChange = (val) => {
+        const re = /^[0-9\b]+$/;
+        if (val === '' || re.test(val)) {
+            setNumOfCommands(val)
+        }
+    };
+
+    // Handel Input foucs
+    const handelFoucsChange = () => {
+        inputEl.current.className = "input"
+        setNumOfCommands("")
+    };
+
+    const handelSubmit = (event) => {
+        event.preventDefault();
+        if (numOfCommands === "" || numOfCommands < 1) {
+            inputEl.current.className = "input input-red"
+        } else {
+            getData(numOfCommands);
+            props.history.push('/step-two');
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handelSubmit}>
             <div className="row step-form-row">
                 <label>please inter number of Commands Here</label>
-                <input name="NumbersOfCommands"
+                <input type="text"
+                       ref={inputEl}
                        className="input"
-                       ref={register({
-                           required: true,
-                           maxLength: 20, pattern: {
-                               value: /^[1-9\b]+$/,
-                               message: "invalid commands number"
-                           }
-                       })}
-                       placeholder="number of commads"
+                       onFocus={(e) => handelFoucsChange(e.target)}
+                       onChange={(e) => handelCommandsChange(e.target.value)}
+                       value={numOfCommands}
                 />
-                {errors.NumbersOfCommands &&
-                <p className="input-error">
-                    {errors.NumbersOfCommands.message}
-                </p>
-                }
+                <p className="input-note">PS, Only <b> Positive Numbers </b> are allowed here</p>
             </div>
-            <div className="row step-form-row">
-                <label htmlFor="">Please inter the Starting Point</label>
-                <input name="startInX"
-                       className="input input-half"
-                       ref={register({
-                           required: true,
-                           maxLength: 20, pattern: {
-                               value: /^[\d ()+-]+$/,
-                               message: "invalid Start Point"
-                           }
-                       })}
-                       placeholder="Start Point X"
-                />
-
-                {errors.startInX &&
-                <p className="input-error">{errors.startInX.message}</p>}
-
-                <input name="startInY"
-                       className="input input-half"
-                       ref={register({
-                           required: true,
-                           maxLength: 20, pattern: {
-                               value: /^[\d ()+-]+$/,
-                               message: "invalid Start Point"
-                           }
-                       })}
-                       placeholder="Start Point Y"
-                />
-
-                {errors.startInY &&
-                <p className="input-error">{errors.startInY.message}</p>}
-
-            </div>
-            <input type="submit"/>
+            <button>Next</button>
         </form>
     );
 }
