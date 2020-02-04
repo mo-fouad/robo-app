@@ -17,6 +17,7 @@ function StepTwo(props) {
     const handelYChange = (val) => {
         setStarY(val);
     };
+
     const handelSubmit = event => {
         event.preventDefault();
         getData({StarX, StarY});
@@ -42,7 +43,7 @@ function StepTwo(props) {
                        title="please enter a number between -100000 & 100000"
                 />
 
-                <input type="text"
+                <input type="number"
                        required
                        ref={inputY}
                        min="-100000"
@@ -59,7 +60,7 @@ function StepTwo(props) {
                     No Decimals, And not Greater than 100000 or less than -100000 :)
                 </p>
             </div>
-            <input type="submit"/>
+            <input type="submit" className="btn"/>
         </form>
     );
 }

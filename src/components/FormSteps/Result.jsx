@@ -1,17 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 
 function Result(props) {
-    const {arrOfCommands, numOfCommands, stPoint} = props;
-
-    let tempArrOfCommand = [
-        {direction: "E", magnitude: "2"},
-        {direction: "N", magnitude: "1"},
-        // {direction: "S", magnitude: "4"},
-        // {direction: "E", magnitude: "1"},
-
-    ]
-
-    const [currentPoint, setCurrentPoint] = useState(stPoint);
+    const {arrOfCommands, stPoint} = props;
 
     let boundaries = {
         x: '100000',
@@ -23,7 +14,7 @@ function Result(props) {
     let cleanedRooms = {};
     cleanedRooms[[stPoint.x, stPoint.y]] = true;     // starter room :D
 
-    let tempCurrPoint = currentPoint;
+    let tempCurrPoint = stPoint;
     // todo : magic
     //  - check our commands in the array
     //  - loop steps for every command,
@@ -36,6 +27,7 @@ function Result(props) {
         // move our current Point in Y , and Add cleaned rooms in our Set,
         for (let i = 1; i <= +Mag; i++) {
             tempCurrPoint.y = parseInt(tempCurrPoint.y) + 1;
+            if (tempCurrPoint.y > boundaries.y) break;
             cleanedRooms[[tempCurrPoint.x, tempCurrPoint.y]] = cleanedRooms[[tempCurrPoint.x, tempCurrPoint.y]] || true;
         }
     };
@@ -45,6 +37,7 @@ function Result(props) {
         // move our current Point in Y , and Add cleaned rooms in our Set,
         for (let i = 1; i <= +Mag; i++) {
             tempCurrPoint.y = parseInt(tempCurrPoint.y) - 1;
+            if (tempCurrPoint.y < boundaries.my) break;
             cleanedRooms[[tempCurrPoint.x, tempCurrPoint.y]] = cleanedRooms[[tempCurrPoint.x, tempCurrPoint.y]] || true;
         }
     };
@@ -53,6 +46,7 @@ function Result(props) {
     const goEast = (Mag) => {
         for (let i = 1; i <= +Mag; i++) {
             tempCurrPoint.x = parseInt(tempCurrPoint.x) + 1;
+            if (tempCurrPoint.x > boundaries.x) break;
             cleanedRooms[[tempCurrPoint.x, tempCurrPoint.y]] = cleanedRooms[[tempCurrPoint.x, tempCurrPoint.y]] || true;
         }
     }
@@ -61,7 +55,9 @@ function Result(props) {
     const goWest = (Mag) => {
         for (let i = 1; i <= +Mag; i++) {
             tempCurrPoint.x = parseInt(tempCurrPoint.x) - 1;
+            if (tempCurrPoint.x < boundaries.mx) break;
             cleanedRooms[[tempCurrPoint.x, tempCurrPoint.y]] = cleanedRooms[[tempCurrPoint.x, tempCurrPoint.y]] || true;
+
         }
     };
 
@@ -101,3 +97,8 @@ function Result(props) {
 }
 
 export default Result;
+
+Result.propTypes = {
+    arrOfCommands: PropTypes.array,
+    stPoint: PropTypes.object
+};
