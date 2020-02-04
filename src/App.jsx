@@ -11,10 +11,12 @@ import Welcome from './components/FormSteps/Welcome'
 import StepTwo from "./components/FormSteps/StepTwo";
 import Result from "./components/FormSteps/Result";
 import StepThree from "./components/FormSteps/StepThree";
+import NotFound from "./components/NotFound";
 
 function App() {
-    const [NumbersOfCommands, SetNumOfCommands] = useState(3);
+    const [NumbersOfCommands, SetNumOfCommands] = useState(1);
     const [startPoint, setStartPoint] = useState({x: "0", y: "0"});
+    const [commandsArr, setCommandsArr] = useState([]);
 
     const stepOneData = (data) => {
         SetNumOfCommands(data);
@@ -23,13 +25,14 @@ function App() {
         setStartPoint({x: data.StarX, y: data.StarY});
     };
 
-    console.log(startPoint);
+    const StepThreeData = (data) => {
+        setCommandsArr(data);
+    };
 
     return (
         <Router>
             <div className="container dashboard">
-                {NumbersOfCommands && <p>Number of Commands is <b>{NumbersOfCommands}</b></p>}
-                {startPoint && <p>And your Start Pint is x : <b>{startPoint.x}</b> & y : <b>{startPoint.y}</b></p>}
+
                 <Switch>
                     <Route exact path="/">
                         <Welcome></Welcome>
@@ -41,11 +44,15 @@ function App() {
                         <StepTwo getData={SetpTwoData}></StepTwo>
                     </Route>
                     <Route exact path="/step-three">
-                        <StepThree numOfCommands={NumbersOfCommands} getData={StepThree}></StepThree>
+                        <StepThree numOfCommands={NumbersOfCommands} getData={StepThreeData}></StepThree>
+                    </Route>
+                    <Route exact path="/result">
+                        <Result arrOfCommands={commandsArr} numOfCommands={NumbersOfCommands} stPoint={startPoint}></Result>
                     </Route>
                     <Route exact path="/result">
                         <Result></Result>
                     </Route>
+                    <Route path="*" component={NotFound}/>
                 </Switch>
             </div>
         </Router>

@@ -39,6 +39,7 @@ function StepTwo(props) {
                        className="input input-half"
                        onChange={event => handelXChange(event.target.value)}
                        value={StarX}
+                       title="please enter a number between -100000 & 100000"
                 />
 
                 <input type="text"
@@ -50,6 +51,7 @@ function StepTwo(props) {
                        className="input input-half"
                        onChange={(e) => handelYChange(e.target.value)}
                        value={StarY}
+                       title="please enter a number between -100000 & 100000"
                 />
 
                 <p className="input-note">

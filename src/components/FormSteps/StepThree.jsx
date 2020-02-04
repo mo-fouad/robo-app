@@ -3,30 +3,35 @@ import React, {useState} from 'react';
 import {withRouter} from 'react-router-dom'
 
 function StepThree(props) {
-
-    const {numOfCommands} = props;
-    const regDirection = /^[W|S|E|N]+$/
+    const {numOfCommands,getData} = props;
+    const regDirection = /^[W|S|E|N]*$/g
 
     let startArr = [];
     for (let i = 0; i < numOfCommands; i++) {
         startArr.push({direction: "", magnitude: ""})
     }
 
-    const [elemArr, setElemArr] = useState(startArr)
+    const [elemArr, setElemArr] = useState(startArr);
 
 
     const handelSubmit = (e) => {
         e.preventDefault();
-        console.log(elemArr);
+        getData(elemArr);
+        props.history.push('/result');
     };
 
     const handelDirectionChange = (e) => {
-        let eleName = e.target.name;
-        // todo fix fot delete char after adding it
-        if (regDirection.test(e.target.value)) {
-            let tempstateArr = [...elemArr];
-            tempstateArr[eleName].direction = e.target.value;
-            setElemArr(tempstateArr);
+        // accept only one character then move the mouse to the next input
+        if (e.target.value.length >= 2) {
+            e.target.nextSibling.focus();
+        } else {
+            let eleName = e.target.name;
+            // todo fix fot delete char after adding it
+            if (regDirection.test(e.target.value)) {
+                let tempStateArr = [...elemArr];
+                tempStateArr[eleName].direction = e.target.value;
+                setElemArr(tempStateArr);
+            }
         }
     };
 
@@ -38,9 +43,18 @@ function StepThree(props) {
 
     };
 
-    console.info(elemArr);
+    // todo : Accept only values that inside the borders, by considering the start points and directions
+
     return (
         <form onSubmit={handelSubmit}>
+            <div className="input-note">
+                ps: you can only inter <b>E,W,N </b>or <b> S </b> in the dDirection Filed, <br/>
+                and you can onlye inter numbers in
+            </div>
+
+            <input type="text" disabled className="input input-half" placeholder="Direction"/>
+            <input type="text" disabled className="input input-half" placeholder="Magnitude"/>
+
             {elemArr.map((ele, key) =>
                 <div className="row step-form-row" key={key}>
                     <input type="text"

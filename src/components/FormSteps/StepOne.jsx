@@ -15,7 +15,7 @@ function StepOne(props) {
 
     // Handel Input foucs
     const handelFoucsChange = () => {
-        inputEl.current.className = "input"
+        inputEl.current.className = "input";
         setNumOfCommands("")
     };
 
@@ -23,7 +23,6 @@ function StepOne(props) {
         event.preventDefault();
         getData(numOfCommands);
         props.history.push('/step-two');
-
     };
 
     return (
@@ -39,12 +38,13 @@ function StepOne(props) {
                        onFocus={(e) => handelFoucsChange(e.target)}
                        onChange={(e) => handelCommandsChange(e.target.value)}
                        value={numOfCommands}
+                       title="Please enter a number greater than 0 and less than 10001"
                 />
                 <p className="input-note">PS, Only <b> Positive Numbers </b> are allowed here <br/>
                     and must be greater than 0
                 </p>
             </div>
-            <button>Next</button>
+            <button type="submit" className="btn">Next</button>
         </form>
     );
 }
